@@ -16,39 +16,39 @@ setBundlePath(config.get_img_path())
 
 
 class MVC_Suite(unittest.TestCase):
-    """Verifies conversions for Apple devices.
+    """Verifies conversions for Android devices.
 
-    Currently tested devices: ipad, iphone, ipod_classic, ipod_nano
-    ipod_touch
+    Currently tested devices: behold, nexus one, Magic, Hero,
+    G1 / Dream, Eris/Desire, Droid, Cliq /DEXT
     """
     def setUp(self):
         self.verificationErrors = []
         switchApp(config.get_launch_cmd())     
 
 
-    def test_340(self):
+    def test_353(self):
         path = os.path.join(mycwd,"TestInput")
         click("device_menu.png")
-        device = "iphone"
+        device = "behold"
         click(device+".png")
         mvclib.itunes_off(self)
         d = {}
         for testfile in glob.glob( os.path.join(path, '*.*') ):
             mvclib.convert_files(self,testfile,device)
 
-    def test_341(self):
+    def test_360(self):
         path = os.path.join(mycwd,"TestInput")
         click("device_menu.png")
-        device = "ipod_classic"
+        device = "nexus_one"
         click(device+".png")
         mvclib.itunes_off(self)
         for testfile in glob.glob( os.path.join(path, '*.*') ):
             mvclib.convert_files(self,testfile,device)
         
-    def test_342(self):
+    def test_359(self):
         path = os.path.join(mycwd,"TestInput")
         click("device_menu.png")
-        device = "ipod_nano"
+        device = "magic"
         click(device+".png")
         mvclib.itunes_off(self)
         for testfile in glob.glob( os.path.join(path, '*.*') ):
@@ -56,25 +56,51 @@ class MVC_Suite(unittest.TestCase):
         
         
 
-    def test_350(self):
+    def test_358(self):
         path = os.path.join(mycwd,"TestInput")
         click("device_menu.png")
-        device = "ipod_touch"
+        device = "hero"
         mvclib.itunes_off(self)
         click(device+".png")
         for testfile in glob.glob( os.path.join(path, '*.*') ):
             mvclib.convert_files(self,testfile,device)   
 
 
-    def test_365(self):
+    def test_357(self):
         path = os.path.join(mycwd,"TestInput")
         click("device_menu.png")
-        device = "ipad"
+        device = "dream"
         mvclib.itunes_off(self)
         click(device+".png")
         for testfile in glob.glob( os.path.join(path, '*.*') ):
             mvclib.convert_files(self,testfile,device)
 
+    def test_356(self):
+        path = os.path.join(mycwd,"TestInput")
+        click("device_menu.png")
+        device = "eris"
+        mvclib.itunes_off(self)
+        click(device+".png")
+        for testfile in glob.glob( os.path.join(path, '*.*') ):
+            mvclib.convert_files(self,testfile,device)
+
+    def test_355(self):
+        path = os.path.join(mycwd,"TestInput")
+        click("device_menu.png")
+        device = "droid"
+        mvclib.itunes_off(self)
+        click(device+".png")
+        for testfile in glob.glob( os.path.join(path, '*.*') ):
+            mvclib.convert_files(self,testfile,device)
+
+    def test_354(self):
+        path = os.path.join(mycwd,"TestInput")
+        click("device_menu.png")
+        device = "cliq"
+        mvclib.itunes_off(self)
+        click(device+".png")
+        for testfile in glob.glob( os.path.join(path, '*.*') ):
+            mvclib.convert_files(self,testfile,device)
             
     def tearDown(self):
         switchApp(config.get_launch_cmd())

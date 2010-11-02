@@ -2,7 +2,11 @@
 
 
 import os
+import time
 from sikuli.Sikuli import *
+
+
+testlitmus = True
 
 
 def get_img_path():
@@ -17,11 +21,11 @@ def get_img_path():
 def get_os_name():
     """Returns the os string for the SUT
     """
-       
     if "MAC" in str(Env.getOS()):
-	return "osx"
+        return "osx"
     else:
         print ("I don't know how to handle platform '%s'", Env.getOS())
+
 
 def get_launch_cmd():
     """Returns the launch path for the application.

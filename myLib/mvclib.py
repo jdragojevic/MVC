@@ -57,7 +57,6 @@ def wait_finished_converting(self):
 
     """
     status = "Pass"
-    print os.getcwd()
     while not exists("finished_converting.png"):
         if exists("conversion_failed.png"):
             print "conversion failed"
