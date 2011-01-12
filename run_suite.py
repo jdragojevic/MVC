@@ -10,10 +10,10 @@ import litmusresult
 #Run all the subgroups:
 for subgroup in glob.glob(os.path.join(os.getcwd(), '*.sikuli')):
     print subgroup
-    os.system("cd ../; java -d32 -Dpython.path=Lib/ -jar sikuli-script.jar "+ subgroup)
+    os.system("cd ../; java -Djava.library.tmpdir=Frameworks -jar sikuli-script.jar "+ subgroup)
     litmusresult.send_result(fn=os.path.join(os.path.dirname(os.getcwd()),"log.xml"))
         
 
 
 #To run just one test:
-    #os.system("cd ../; java -d32 -Dpython.path=Lib/ -jar sikuli-script.jar MVC/sg59_apple_devs.sikuli")
+    #os.system("cd ../; java -Djava.library.tmpdir=Frameworks -jar sikuli-script.jar MVC/sg59_apple_devs.sikuli")

@@ -3,6 +3,7 @@ import os
 import glob
 import unittest
 import StringIO
+import time
 
 mycwd = os.path.join(os.getcwd(),"MVC")
 sys.path.append(os.path.join(mycwd,'myLib'))
@@ -64,13 +65,11 @@ class MVC_Suite(unittest.TestCase):
         click(device+".png")
         for testfile in glob.glob( os.path.join(path, '*.*') ):
             mvclib.convert_files(self,testfile,device)   
-
-
- 
             
     def tearDown(self):
         switchApp(config.get_launch_cmd())
         type("q", KEY_CMD)
+        time.sleep(10)
         self.assertEqual([], self.verificationErrors)
     
 # Post the output directly to Litmus

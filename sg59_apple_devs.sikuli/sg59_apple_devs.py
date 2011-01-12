@@ -3,6 +3,7 @@ import os
 import glob
 import unittest
 import StringIO
+import time
 
 mycwd = os.path.join(os.getcwd(),"MVC")
 sys.path.append(os.path.join(mycwd,'myLib'))
@@ -16,13 +17,14 @@ setBundlePath(config.get_img_path())
 
 
 class MVC_Suite(unittest.TestCase):
-    """Verifies conversions for Apple devices.
+    """Verifies conversions for Apple device+s.
 
-    Currently tested devices: ipad, iphone, ipod_classic, ipod_nano
+    Currently tested device+s: ipad, iphone, ipod_classic, ipod_nano
     ipod_touch
     """
     def setUp(self):
         self.verificationErrors = []
+        setAutoWaitTimeout(60)
         switchApp(config.get_launch_cmd())     
 
 
@@ -79,6 +81,7 @@ class MVC_Suite(unittest.TestCase):
     def tearDown(self):
         switchApp(config.get_launch_cmd())
         type("q", KEY_CMD)
+        time.sleep(10)
         self.assertEqual([], self.verificationErrors)
     
 # Post the output directly to Litmus

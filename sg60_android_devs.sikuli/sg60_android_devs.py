@@ -3,6 +3,7 @@ import os
 import glob
 import unittest
 import StringIO
+import time
 
 mycwd = os.path.join(os.getcwd(),"MVC")
 sys.path.append(os.path.join(mycwd,'myLib'))
@@ -23,7 +24,9 @@ class MVC_Suite(unittest.TestCase):
     """
     def setUp(self):
         self.verificationErrors = []
-        switchApp(config.get_launch_cmd())     
+        setAutoWaitTimeout(60)
+        switchApp(config.get_launch_cmd())
+        wait("device_menu.png")
 
 
     def test_353(self):
@@ -105,6 +108,7 @@ class MVC_Suite(unittest.TestCase):
     def tearDown(self):
         switchApp(config.get_launch_cmd())
         type("q", KEY_CMD)
+        time.sleep(10)
         self.assertEqual([], self.verificationErrors)
     
 # Post the output directly to Litmus

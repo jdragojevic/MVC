@@ -5,6 +5,7 @@ import os
 import httplib
 import urllib
 import time
+import platform
 
 def set_test_id(test_id):
     tid = test_id.split()
@@ -24,30 +25,32 @@ def set_status(stat):
     return status
 
 
-def set_litmus_plat(test_os):
-    plat = "snowleopard"
-    return plat
 
 def set_litmus_os(test_os):
     """Returns the os string for the SUT
 
     """
     if str(test_os) == "osx":
-        return "OS X"
+        v, _, _ = platform.mac_ver()
+        v = str('.'.join(v.split('.')[:2]))
+        lit_os = ["OS X", v]
+        return lit_os
     elif str(test_os) == "win":
-        return "Windows"
+        v = platform.release()
+        lit_os = ["Windows", v]
+        return lit_os
     else:
         print ("I don't know how to handle platform '%s'", test_os)
 
 
 def set_buildid():
-    buildid = time.strftime("%Y%m%d", time.gmtime()) + "99"
-    #buildid = "2010110200" #set custom build id here.
+    #buildid = time.strftime("%Y%m%d", time.gmtime()) + "99"
+    buildid = "2011011001" #set custom build id here.
     return buildid
 
 
 HEADER = """<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<litmusresults action="submit" useragent="UberSeleniumAgent/1.0 (machine foobar)" machinename="sikuli_machine">
+<litmusresults action="submit" useragent="UberSikuliAgent/1.0 (machine foobar)" machinename="sikuli_machine">
    <testresults
    username="pcf.subwriter@gmail.com"
    authtoken="autotester"
@@ -80,8 +83,8 @@ FOOTER = """</testresults>
 def write_header(test_os):
     f = open("log.xml",'w')
     f.write(HEADER % {"buildid": set_buildid(),
-                      "opsys": set_litmus_os(test_os),
-                      "platform": set_litmus_plat(test_os)
+                      "opsys": set_litmus_os(test_os)[0],
+                      "platform": "10.6"
                       })
     f.close
     
@@ -123,5 +126,6 @@ def send_result(fn):
 
 
 if __name__ == "__main__":
-    send_result()
+    write_header("osx")
+    #send_result()
 
