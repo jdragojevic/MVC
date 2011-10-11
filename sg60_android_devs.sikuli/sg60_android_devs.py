@@ -1,139 +1,107 @@
 import sys
 import os
-import glob
 import unittest
-import StringIO
-import time
+import base_testcase
 
-mycwd = os.path.join(os.getcwd(),"MVC")
-sys.path.append(os.path.join(mycwd,'myLib'))
-import config
-import mvclib
-import litmusresult
+from sikuli.Sikuli import *
+import myLib.config
+from myLib import mvclib
+from myLib import litmusresult
 
-
-
-setBundlePath(config.get_img_path())
+setBundlePath(myLib.config.get_img_path())
 
 
-class MVC_Suite(unittest.TestCase):
+class MVC_Suite(base_testcase.MVC_unittest_testcase):
     """Verifies conversions for Android devices.
 
     Currently tested devices: behold, nexus one, Magic, Hero,
     G1 / Dream, Eris/Desire, Droid, Cliq /DEXT
     """
-    def setUp(self):
-        self.verificationErrors = []
-        setAutoWaitTimeout(60)
-        switchApp(config.get_launch_cmd())
-        wait("device_menu.png")
 
 
     def test_353(self):
-        path = os.path.join(mycwd,"TestInput")
-        click("device_menu.png")
-        device = "behold"
-        click(device+".png")
-        mvclib.itunes_off(self)
-        d = {}
-        for testfile in glob.glob( os.path.join(path, '*.*') ):
-            mvclib.convert_files(self,testfile,device)
+        mvc = mvclib.MVCApp()
+        conversion = "Behold"
+        extension = "behold.mp4"
+        outfiles = mvc.do_conversions(conversion, extension)
+        self.assertTrue(mvc.output_files_exist(outfiles) == [])
+        
 
     def test_360(self):
-        path = os.path.join(mycwd,"TestInput")
-        click("device_menu.png")
-        device = "nexus_one"
-        click(device+".png")
-        mvclib.itunes_off(self)
-        for testfile in glob.glob( os.path.join(path, '*.*') ):
-            mvclib.convert_files(self,testfile,device)
+        mvc = mvclib.MVCApp()
+        conversion = "Nexus"
+        extension = "nexusone.mp4"
+        outfiles = mvc.do_conversions(conversion, extension)
+        self.assertTrue(mvc.output_files_exist(outfiles) == [])  
+        
         
     def test_359(self):
-        path = os.path.join(mycwd,"TestInput")
-        click("device_menu.png")
-        device = "magic"
-        click(device+".png")
-        mvclib.itunes_off(self)
-        for testfile in glob.glob( os.path.join(path, '*.*') ):
-            mvclib.convert_files(self,testfile,device)
-        
+        mvc = mvclib.MVCApp()
+        conversion = "magic"
+        extension = "magic.mp4"
+        outfiles = mvc.do_conversions(conversion, extension)
+        self.assertTrue(mvc.output_files_exist(outfiles) == [])        
         
 
     def test_358(self):
-        path = os.path.join(mycwd,"TestInput")
-        click("device_menu.png")
-        device = "hero"
-        mvclib.itunes_off(self)
-        click(device+".png")
-        for testfile in glob.glob( os.path.join(path, '*.*') ):
-            mvclib.convert_files(self,testfile,device)   
+        """Hero conversions.
+
+        """
+        mvc = mvclib.MVCApp()
+        conversion = "Hero"
+        extension = "hero.mp4"
+        outfiles = mvc.do_conversions(conversion, extension)
+        self.assertTrue(mvc.output_files_exist(outfiles) == [])
 
 
     def test_357(self):
-        path = os.path.join(mycwd,"TestInput")
-        click("device_menu.png")
-        device = "dream"
-        mvclib.itunes_off(self)
-        click(device+".png")
-        for testfile in glob.glob( os.path.join(path, '*.*') ):
-            mvclib.convert_files(self,testfile,device)
+        mvc = mvclib.MVCApp()
+        conversion = "G1"
+        extension = "g1.mp4"
+        outfiles = mvc.do_conversions(conversion, extension)
+        self.assertTrue(mvc.output_files_exist(outfiles) == [])
+          
 
     def test_356(self):
-        path = os.path.join(mycwd,"TestInput")
-        click("device_menu.png")
-        device = "eris"
-        mvclib.itunes_off(self)
-        click(device+".png")
-        for testfile in glob.glob( os.path.join(path, '*.*') ):
-            mvclib.convert_files(self,testfile,device)
+        """Eris / Desire
+        """
+        mvc = mvclib.MVCApp()
+        conversion = "Desire"
+        extension = "eris.mp4"
+        outfiles = mvc.do_conversions(conversion, extension)
+        self.assertTrue(mvc.output_files_exist(outfiles) == [])
+
 
     def test_355(self):
-        path = os.path.join(mycwd,"TestInput")
-        click("device_menu.png")
-        device = "droid"
-        mvclib.itunes_off(self)
-        click(device+".png")
-        for testfile in glob.glob( os.path.join(path, '*.*') ):
-            mvclib.convert_files(self,testfile,device)
+        """Droid Conversions.
+
+        """
+        mvc = mvclib.MVCApp()
+        conversion = "Droid"
+        extension = "droid.mp4"
+        outfiles = mvc.do_conversions(conversion, extension)
+        self.assertTrue(mvc.output_files_exist(outfiles) == [])
+     
 
     def test_354(self):
-        path = os.path.join(mycwd,"TestInput")
-        click("device_menu.png")
-        device = "cliq"
-        mvclib.itunes_off(self)
-        click(device+".png")
-        for testfile in glob.glob( os.path.join(path, '*.*') ):
-            mvclib.convert_files(self,testfile,device)
-            
-    def tearDown(self):
-        switchApp(config.get_launch_cmd())
-        type("q", KEY_CMD)
-        time.sleep(10)
-        self.assertEqual([], self.verificationErrors)
+        """Cliq / DEXT
+
+        """
+        mvc = mvclib.MVCApp()
+        conversion = "Cliq"
+        extension = "cliq.mp4"
+        outfiles = mvc.do_conversions(conversion, extension)
+        self.assertTrue(mvc.output_files_exist(outfiles) == [])
+
     
 # Post the output directly to Litmus
+if __name__ == "__main__":
+    import LitmusTestRunner
+    print len(sys.argv)
+    if len(sys.argv) > 1:
+        LitmusTestRunner.LitmusRunner(sys.argv, ).litmus_test_run()
+    else:
+        LitmusTestRunner.LitmusRunner(MVC_Suite, ).litmus_test_run()
 
-if config.testlitmus == True:
-    suite_list = unittest.getTestCaseNames(MVC_Suite,'test')
-    suite = unittest.TestSuite()
-    for x in suite_list:
-        suite.addTest(MVC_Suite(x))
 
-    buf = StringIO.StringIO()
-    runner = unittest.TextTestRunner(stream=buf)
-    litmusresult.write_header(config.get_os_name())
-    for x in suite:
-        runner.run(x)
-        # check out the output
-        byte_output = buf.getvalue()
-        id_string = str(x)
-        stat = byte_output[0]
-        try:
-            litmusresult.write_log(id_string,stat,byte_output)
-        finally:
-            buf.truncate(0)
-    litmusresult.write_footer()
-#or just run it locally
-else:
-    unittest.main()
 
