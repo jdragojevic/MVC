@@ -23,10 +23,9 @@ def input_files():
 
 def set_regions():
     config.set_image_dirs()
-    find(Pattern("top_app.png"))
+    wait(Pattern("top_app.png"), 20)
     mvc = Region(getLastMatch())
     mvc.setH(mvc.getH()+650)
-    mvc.highlight(2)
     return mvc
 
 
@@ -42,46 +41,54 @@ class MVCApp(object):
         self.CHOOSE_FILE = Pattern("choose_a_file.png")
         self.STARTING = Pattern('starting.png')
         self.FINISHED = Pattern('finished.png')
+        self.OPEN = Pattern('Open.png')
         self.mvcapp.focus()
-        time.sleep(5)
-        self.reg = set_regions()           
+        time.sleep(3)
+        self.reg = set_regions()
+        setAutoWaitTimeout(10)
     
     def _choose_format(self, out_format):
+        if self.reg.exists(out_format):
+            return
         self.reg.click(self.DEVICE_MENU)
-        if out_format == "iPad":
-            type("i")
-            type(Key.ENTER)
-        elif out_format == "Nano":
-            type("i")
-            for x in range(0,3):
+        if config.get_os_name() == "win":
+            if out_format == "iPad":
+                type("i")
+                type(Key.ENTER)
+            elif out_format == "Nano":
+                type("i")
+                for x in range(0,3):
+                    type(Key.DOWN)
+                type(Key.ENTER)
+            elif out_format == "MP3":
+                type("m")
                 type(Key.DOWN)
-            type(Key.ENTER)
-        elif out_format == "MP3":
-            type("m")
-            type(Key.DOWN)
-            type(Key.ENTER)
-        elif out_format == "MP4":
-            type("m")
-            type(Key.ENTER)
-        elif out_format == "PSP":
-            type("p")
-            type(Key.ENTER)
-        elif out_format == "Hero":
-            type("h")
-            type(Key.ENTER)
-        elif out_format == "Cliq":
-            type("c")
-            type(Key.ENTER)
-        elif out_format == "G1":
-            type("g")
-            type(Key.ENTER)
-        elif out_format == "WebM":
-            type("w")
-            type(Key.ENTER)
-        elif self.reg.exists(out_format):
-            click(self.reg.getLastMatch())
+                type(Key.ENTER)
+            elif out_format == "MP4":
+                type("m")
+                type(Key.ENTER)
+            elif out_format == "PSP":
+                type("p")
+                type(Key.ENTER)
+            elif out_format == "Hero":
+                type("h")
+                type(Key.ENTER)
+            elif out_format == "Cliq":
+                type("c")
+                type(Key.ENTER)
+            elif out_format == "G1":
+                type("g")
+                type(Key.ENTER)
+            elif out_format == "WebM":
+                type("w")
+                type(Key.ENTER)
+            elif self.reg.exists(out_format):
+                click(self.reg.getLastMatch())
+            else:
+                raise Exception("Output format not found")
         else:
-            raise Exception("Output format not found")
+            self.reg.click(out_format)
+            
 
     def _add_a_file(self, filename):
         input_file_path = os.path.join(os.path.join(os.getenv("PCF_TEST_HOME"),"MVC", "TestData"))
@@ -89,8 +96,14 @@ class MVCApp(object):
         self.reg.click(self.CHOOSE_FILE)
         time.sleep(2)
         type(testfile +"\n")
+        if config.get_os_name() == "osx":
+            time.sleep(2)
+            type(Key.ENTER)
+            
+            
     
     def _convert_file(self):
+        self.reg.wait(self.CONVERT, 5)
         self.reg.click(self.CONVERT)
         try:
             waitVanish(self.STARTING, 15)
@@ -128,7 +141,8 @@ class MVCApp(object):
             fileparts.append(extension)
             converted_filename = ".".join(fileparts)
             outfile = os.path.join(INPUT_DIR, converted_filename)
-            output_files.append(outfile)   
+            output_files.append(outfile)
+            time.sleep(3)
         return output_files
 
     def close_mvc(self):

@@ -37,7 +37,7 @@ class MVC_Suite(base_testcase.MVC_unittest_testcase):
         
     def test_359(self):
         mvc = mvclib.MVCApp()
-        conversion = "magic"
+        conversion = "Magic"
         extension = "magic.mp4"
         outfiles = mvc.do_conversions(conversion, extension)
         self.assertTrue(mvc.output_files_exist(outfiles) == [])        

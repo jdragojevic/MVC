@@ -43,7 +43,7 @@ def launch_cmd():
     launch is an os specific command
     """
     if get_os_name() == "osx":
-        launch_cmd =  "/Applications/MVC.app"
+        launch_cmd =  "/Applications/Miro Video Converter.app"
     elif get_os_name() == "win":
         launch_cmd = os.path.join(os.getenv("PROGRAMFILES"),"Participatory Culture Foundation","Miro Video Converter","MiroConverter.exe")
     else:
