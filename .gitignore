@@ -1,0 +1,14 @@
+# ignore pyc files
+*.pyc
+#ignore class files
+*.class
+#ignore the test data
+Images_old/*
+TestInput/*
+OutputFiles/*
+TestData/*
+#ignore log files
+just_send_result.py
+last_run/*_log.xml
+
+
